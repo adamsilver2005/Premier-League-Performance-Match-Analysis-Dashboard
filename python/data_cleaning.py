@@ -8,6 +8,9 @@ df = pd.read_csv("data/raw/dataset.csv", encoding="latin-1")
 for col in df.select_dtypes(include="object").columns:
     df[col] = df[col].str.replace("\xa0", " ").str.strip()
 
+# Dataset ends partway through 2021-22, so exclude the incomplete season
+df = df[df["Season"] != "2021-22"].copy()
+
 # Dates, ordering, and a match ID
 df["MatchDate"] = pd.to_datetime(df["DateTime"], utc=True).dt.tz_localize(None).dt.normalize()
 df = df.drop(columns="DateTime").sort_values(["MatchDate", "HomeTeam"]).reset_index(drop=True)

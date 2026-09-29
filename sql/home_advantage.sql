@@ -6,7 +6,8 @@ SELECT Season,
        ROUND(100.0 * SUM(FTR = 'A') / COUNT(*), 1) AS away_win_pct,
        ROUND(AVG(FTHG), 2) AS avg_home_goals,
        ROUND(AVG(FTAG), 2) AS avg_away_goals,
-       ROUND(AVG(TotalGoals), 2) AS goals_per_game
+       ROUND(AVG(TotalGoals), 2) AS goals_per_game,
+	   ROUND(AVG(FTHG) - AVG(FTAG), 2) AS home_goal_advantage
 FROM matches
 GROUP BY Season
 ORDER BY Season;
