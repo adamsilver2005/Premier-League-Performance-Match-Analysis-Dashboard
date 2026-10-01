@@ -39,6 +39,21 @@ tm["Result"] = np.select([tm.GoalsFor > tm.GoalsAgainst, tm.GoalsFor == tm.Goals
 tm["Points"] = tm["Result"].map({"W": 3, "D": 1, "L": 0})
 tm["Form5"] = tm.groupby("Team")["Points"].transform(lambda s: s.shift().rolling(5).sum())
 
+
+# Season table: one row per team per season, with final league position
+st = (tm.groupby(["Season", "Team"])
+        .agg(Games=("Points", "size"),
+             Points=("Points", "sum"),
+             GoalsFor=("GoalsFor", "sum"),
+             GoalsAgainst=("GoalsAgainst", "sum"))
+        .reset_index())
+st["GoalDiff"] = st["GoalsFor"] - st["GoalsAgainst"]
+st["PPG"] = (st["Points"] / st["Games"]).round(2)
+st = st.sort_values(["Season", "Points", "GoalDiff", "GoalsFor"],
+                    ascending=[True, False, False, False])
+st["SeasonRank"] = st.groupby("Season").cumcount() + 1
+
+
 # Save to SQLite and CSV (Power BI reads the CSVs easily)
 conn = sqlite3.connect("data/epl.db")
 df.to_sql("matches", conn, if_exists="replace", index=False)
