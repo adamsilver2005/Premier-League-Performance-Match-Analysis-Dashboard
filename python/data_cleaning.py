@@ -58,10 +58,12 @@ st["SeasonRank"] = st.groupby("Season").cumcount() + 1
 conn = sqlite3.connect("data/epl.db")
 df.to_sql("matches", conn, if_exists="replace", index=False)
 tm.to_sql("team_matches", conn, if_exists="replace", index=False)
+st.to_sql("season_table", conn, if_exists="replace", index=False)
 conn.close()
 
 df.to_csv("data/clean/matches.csv", index=False)
 tm.to_csv("data/clean/team_matches.csv", index=False)
+st.to_csv("data/clean/season_table.csv", index=False)
 
 print(df.shape, tm.shape)
 print(tm.groupby("Season").size().tail())
