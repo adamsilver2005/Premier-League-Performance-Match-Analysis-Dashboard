@@ -65,5 +65,5 @@ df.to_csv("data/clean/matches.csv", index=False)
 tm.to_csv("data/clean/team_matches.csv", index=False)
 st.to_csv("data/clean/season_table.csv", index=False)
 
-print(df.shape, tm.shape)
+print(df.shape, tm.shape, st.shape)
 print(tm.groupby("Season").size().tail())
