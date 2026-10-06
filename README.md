@@ -2,7 +2,7 @@
 Premier League performance and match analysis using SQL, Python, and Power BI.
 
 
-2021-2022 data is an imcomplete season 
+
 
 
 1. How has home advantage changed over 30 seasons (home win %, home vs away goals)?
